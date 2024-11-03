@@ -37,3 +37,23 @@ export const getNotes = async (req, res, next) => {
     next(error);
   }
 };
+
+export const deleteNotes = async (req, res, next) => {
+  try {
+    await prisma.note.deleteMany({
+      where: {
+        id: {
+          in: req.body.ids,
+        },
+        note: {
+          id: req.user.id,
+        },
+      },
+    });
+    res.json({ message: "notes deleted" });
+  } catch (error) {
+    console.log("deleteNotes", error);
+    error.type = "input";
+    next(error);
+  }
+};

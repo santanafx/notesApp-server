@@ -1,7 +1,8 @@
 import cors from "cors";
 import express from "express";
+import { body } from "express-validator";
 import morgan from "morgan";
-import { createNewUser, login } from "./handlers/user";
+import { createNewUser, login } from "./controllers/user.controller";
 import { protect } from "./modules/auth";
 import router from "./router";
 
@@ -12,10 +13,15 @@ app.use(morgan("dev"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-app.post("/createNewUser", createNewUser);
-app.post("/login", login);
+app.post(
+  "/createNewUser",
+  body("email").isEmail(),
+  body("password").isString(),
+  createNewUser
+);
+app.post("/login", body("email").isEmail(), body("password").isString(), login);
 
-app.use("/", protect, router);
+app.use(protect, router);
 
 app.use((err, req, res, next) => {
   if (err.type === "auth") {

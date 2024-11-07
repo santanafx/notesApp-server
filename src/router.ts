@@ -4,6 +4,7 @@ import {
   createNewNote,
   deleteNotes,
   getNotes,
+  updateNote,
 } from "./controllers/note.controller";
 import { handleInputsErrors } from "./modules/middleware";
 
@@ -21,6 +22,12 @@ router.delete(
   body("ids").isArray(),
   handleInputsErrors,
   deleteNotes
+);
+router.put(
+  "/updateNote",
+  body("text").isString(),
+  handleInputsErrors,
+  updateNote
 );
 
 export default router;

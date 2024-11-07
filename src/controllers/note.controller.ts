@@ -57,3 +57,21 @@ export const deleteNotes = async (req, res, next) => {
     next(error);
   }
 };
+
+export const updateNote = async (req, res, next) => {
+  try {
+    await prisma.note.update({
+      where: {
+        id: req.body.id,
+      },
+      data: {
+        text: req.body.text,
+      },
+    });
+    res.json({ message: "note updated" });
+  } catch (error) {
+    console.log("updateNote", error);
+    error.type = "input";
+    next(error);
+  }
+};

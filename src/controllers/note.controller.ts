@@ -5,9 +5,9 @@ export const createNewNote = async (req, res, next) => {
     await prisma.note.create({
       data: {
         text: req.body.text,
-        note: {
+        noteOwner: {
           connect: {
-            id: req.user.id,
+            id: req.body.userId,
           },
         },
       },
@@ -25,8 +25,8 @@ export const getNotes = async (req, res, next) => {
   try {
     const notes = await prisma.note.findMany({
       where: {
-        note: {
-          id: req.user.id,
+        noteOwner: {
+          id: req.body.userId,
         },
       },
     });
@@ -45,8 +45,8 @@ export const deleteNotes = async (req, res, next) => {
         id: {
           in: req.body.ids,
         },
-        note: {
-          id: req.user.id,
+        noteOwner: {
+          id: req.body.userId,
         },
       },
     });
@@ -60,17 +60,43 @@ export const deleteNotes = async (req, res, next) => {
 
 export const updateNote = async (req, res, next) => {
   try {
-    await prisma.note.update({
+    const updatedNote = await prisma.note.update({
       where: {
-        id: req.body.id,
+        id: req.body.noteId,
+        noteOwner: {
+          id: req.body.userId,
+        },
       },
-      data: {
-        text: req.body.text,
-      },
+      data: { text: req.body.text },
     });
-    res.json({ message: "note updated" });
+
+    res.json({ message: "Note updated successfully", updatedNote });
   } catch (error) {
-    console.log("updateNote", error);
+    console.error("updateNote", error);
+    error.type = "input";
+    next(error);
+  }
+};
+
+export const updateNotes = async (req, res, next) => {
+  try {
+    const notesToUpdate = req.body.notes;
+    const updatedNotes = await Promise.all(
+      notesToUpdate.map((note) => {
+        return prisma.note.update({
+          where: {
+            id: note.id,
+            noteOwner: {
+              id: req.body.userId,
+            },
+          },
+          data: { text: note.text },
+        });
+      })
+    );
+    res.json({ message: "Notes updated successfully", updatedNotes });
+  } catch (error) {
+    console.error("updateNotes", error);
     error.type = "input";
     next(error);
   }

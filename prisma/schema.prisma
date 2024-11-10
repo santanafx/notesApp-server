@@ -23,6 +23,6 @@ model Note {
 
   text String @db.VarChar(255)
 
-  noteId String
-  note   User   @relation(fields: [noteId], references: [id])
+  noteOwnerId String
+  noteOwner   User   @relation(fields: [noteOwnerId], references: [id])
 }

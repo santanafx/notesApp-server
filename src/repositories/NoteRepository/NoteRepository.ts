@@ -1,6 +1,6 @@
-import prisma from "../db";
-import { Note } from "../entities/Note.entity";
-import { notes } from "./INoteRepository";
+import prisma from "../../db";
+import { Note } from "../../entities/Note.entity";
+import { Notes } from "./NoteRepository.interface";
 
 export class NoteRepository {
   async createNewNote(text: string, userId: string) {
@@ -41,7 +41,7 @@ export class NoteRepository {
     });
   }
 
-  async updateNotes(notes: notes) {
+  async updateNotes(notes: Notes) {
     console.log(notes);
     const updatedNotes = await Promise.all(
       notes.notesData.map((note) => {

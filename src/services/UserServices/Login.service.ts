@@ -1,4 +1,4 @@
-import { IUserRepository } from "../repositories/IUserRepository";
+import { IUserRepository } from "../../repositories/UserRepository/UserRepository.interface";
 
 export class Login {
   constructor(private userRepository: IUserRepository) {}

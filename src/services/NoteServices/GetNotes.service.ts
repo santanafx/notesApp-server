@@ -1,4 +1,4 @@
-import { INoteRepository } from "../repositories/INoteRepository";
+import { INoteRepository } from "../../repositories/NoteRepository/NoteRepository.interface";
 
 export class GetNotes {
   constructor(private noteRepository: INoteRepository) {}

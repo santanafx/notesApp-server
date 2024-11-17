@@ -1,6 +1,6 @@
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
-import prisma from "../db";
+import prisma from "../../db";
 
 export class UserRepository {
   async findUser(email: string) {

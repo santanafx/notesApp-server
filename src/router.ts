@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { body } from "express-validator";
-import { NoteController } from "./controllers/NoteController";
+import { NoteController } from "./controllers/Note.controller";
 import { handleInputsErrors } from "./middlewares/inputErrors";
 
 const router = Router();

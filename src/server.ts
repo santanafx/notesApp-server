@@ -2,7 +2,7 @@ import cors from "cors";
 import express from "express";
 import { body } from "express-validator";
 import morgan from "morgan";
-import { UserController } from "./controllers/UserController";
+import { UserController } from "./controllers/User.controller";
 import { protect } from "./middlewares/auth";
 import router from "./router";
 

@@ -1,48 +1,36 @@
 import { Router } from "express";
 import { body } from "express-validator";
-import {
-  createNewNote,
-  deleteNotes,
-  getNotes,
-  updateNote,
-  updateNotes,
-} from "./controllers/note.controller";
-import { handleInputsErrors } from "./modules/middleware";
+import { NoteController } from "./controllers/NoteController";
+import { handleInputsErrors } from "./middlewares/inputErrors";
 
 const router = Router();
+const noteController = new NoteController();
 
 router.get(
   "/getNotes",
   body("userId").isString(),
   handleInputsErrors,
-  getNotes
+  noteController.getNotes
 );
 router.post(
   "/createNewNote",
   body("text").isString(),
   body("userId").isString(),
   handleInputsErrors,
-  createNewNote
+  noteController.createNewNote
 );
 router.delete(
   "/deleteNotes",
   body("ids").isArray(),
   body("userId").isString(),
   handleInputsErrors,
-  deleteNotes
-);
-router.put(
-  "/updateNote",
-  body("text").isString(),
-  body("userId").isString(),
-  handleInputsErrors,
-  updateNote
+  noteController.deleteNotes
 );
 router.put(
   "/updateNotes",
   body("userId").isString(),
   handleInputsErrors,
-  updateNotes
+  noteController.updateNotes
 );
 
 export default router;

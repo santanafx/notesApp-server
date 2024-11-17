@@ -2,8 +2,8 @@ import cors from "cors";
 import express from "express";
 import { body } from "express-validator";
 import morgan from "morgan";
-import { createNewUser, login } from "./controllers/user.controller";
-import { protect } from "./modules/auth";
+import { UserController } from "./controllers/UserController";
+import { protect } from "./middlewares/auth";
 import router from "./router";
 
 const app = express();
@@ -13,13 +13,19 @@ app.use(morgan("dev"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+const userControler = new UserController();
 app.post(
   "/createNewUser",
   body("email").isEmail(),
   body("password").isString(),
-  createNewUser
+  userControler.create
 );
-app.post("/login", body("email").isEmail(), body("password").isString(), login);
+app.post(
+  "/login",
+  body("email").isEmail(),
+  body("password").isString(),
+  userControler.login
+);
 
 app.use(protect, router);
 

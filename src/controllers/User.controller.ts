@@ -3,27 +3,27 @@ import { CreateNewUser } from "../services/UserServices/CreateNewUser.service";
 import { Login } from "../services/UserServices/Login.service";
 
 export class UserController {
-  create(req, res) {
+  async create(req, res) {
     const userRepository = new UserRepository();
     const createUserService = new CreateNewUser(userRepository);
     const { email, password } = req.body;
 
     try {
-      const user = createUserService.execute(email, password);
-      return res.json({ message: "user created", user });
+      const user = await createUserService.execute(email, password);
+      return res.json({ message: "user created", user: user });
     } catch (err) {
       return res.status(400).json({ message: err.message });
     }
   }
 
-  login(req, res) {
+  async login(req, res) {
     const userRepository = new UserRepository();
     const loginService = new Login(userRepository);
     const { email, password } = req.body;
 
     try {
-      const token = loginService.execute(email, password);
-      return res.json({ token });
+      const response = await loginService.execute(email, password);
+      return res.json({ token: response.token, user: response.user });
     } catch (err) {
       return res.status(400).json({ message: err.message });
     }

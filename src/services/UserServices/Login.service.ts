@@ -16,6 +16,6 @@ export class Login {
       throw new Error("Invalid password");
     }
     const token = await this.userRepository.createJWT(user.id, email);
-    return token;
+    return { token, user };
   }
 }

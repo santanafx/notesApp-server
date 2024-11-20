@@ -5,44 +5,44 @@ import { GetNotes } from "../services/NoteServices/GetNotes.service";
 import { UpdateNotes } from "../services/NoteServices/UpdateNotes.service";
 
 export class NoteController {
-  createNewNote(req, res) {
+  async createNewNote(req, res) {
     const noteRepository = new NoteRepository();
     const createNewNote = new CreateNewNote(noteRepository);
     try {
-      const note = createNewNote.execute(req.body.text, req.body.userId);
-      res.json({ message: "note created", note });
+      const note = await createNewNote.execute(req.body.text, req.body.userId);
+      res.json({ message: "note created", note: note });
     } catch (err) {
       return res.status(400).json({ message: err.message });
     }
   }
 
-  getNotes(req, res) {
+  async getNotes(req, res) {
     const noteRepository = new NoteRepository();
     const getNotes = new GetNotes(noteRepository);
     try {
-      const notes = getNotes.execute(req.body.userId);
-      res.json({ message: "notes", notes });
+      const notes = await getNotes.execute(req.params.userId);
+      res.json({ message: "notes", notes: notes });
     } catch (err) {
       return res.status(400).json({ message: err.message });
     }
   }
 
-  deleteNotes(req, res) {
+  async deleteNotes(req, res) {
     const noteRepository = new NoteRepository();
     const deleteNotes = new DeleteNotes(noteRepository);
     try {
-      const notes = deleteNotes.execute(req.body.ids, req.body.userId);
+      const notes = await deleteNotes.execute(req.body.ids, req.body.userId);
       res.json({ message: "notes deleted", notes });
     } catch (err) {
       return res.status(400).json({ message: err.message });
     }
   }
 
-  updateNotes(req, res) {
+  async updateNotes(req, res) {
     const noteRepository = new NoteRepository();
     const updateNotes = new UpdateNotes(noteRepository);
     try {
-      const notes = updateNotes.execute(req.body);
+      const notes = await updateNotes.execute(req.body);
       res.json({ message: "notes updated", notes });
     } catch (err) {
       return res.status(400).json({ message: err.message });

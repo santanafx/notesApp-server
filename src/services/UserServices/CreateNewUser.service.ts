@@ -5,6 +5,9 @@ export class CreateNewUser {
   constructor(private userRepository: IUserRepository) {}
 
   async execute(email: string, password: string) {
+    if (!email) {
+      throw new Error("Email is required");
+    }
     const existingUser = await this.userRepository.findUser(email);
     if (existingUser) {
       throw new Error("User already exists");

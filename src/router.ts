@@ -6,12 +6,7 @@ import { handleInputsErrors } from "./middlewares/inputErrors";
 const router = Router();
 const noteController = new NoteController();
 
-router.get(
-  "/getNotes",
-  body("userId").isString(),
-  handleInputsErrors,
-  noteController.getNotes
-);
+router.get("/home/:userId", handleInputsErrors, noteController.getNotes);
 router.post(
   "/createNewNote",
   body("text").isString(),

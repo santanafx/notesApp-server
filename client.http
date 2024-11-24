@@ -1,0 +1,78 @@
+@hostname = http://localhost:3000
+@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImM0Nzc3NjIwLWJhNjMtNGE0ZS05NTYzLTE3YTMwZTk1NmM2MiIsInVzZXJuYW1lIjoic2FudGFuYWZ4QGhvdG1haWwuY29tIiwiaWF0IjoxNzMyNDM0MDM5fQ.fOhudrWq-0DORfyyiGwbO0VK2ZmPj238inGIMuMZfLg
+@userId = c4777620-ba63-4a4e-9563-17a30e956c62
+
+###### create user
+POST {{hostname}}/createNewUser HTTP/1.1
+Accept: */*
+Content-Type: application/json
+
+{
+  "email": "teste@teste.com",
+  "password": "123"
+}
+
+###### login
+
+POST {{hostname}}/login HTTP/1.1
+Accept: */*
+Content-Type: application/json
+
+{
+  "email": "santanafx@hotmail.com",
+  "password": "Lucas421"
+}
+
+
+###### get notes
+
+GET {{hostname}}/home/{{userId}} HTTP/1.1
+Accept: */*
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+
+####### create note
+
+POST {{hostname}}/createNewNote HTTP/1.1
+Accept: */*
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "text": "teste note 3",
+  "userId": "{{userId}}"
+}
+
+####### delete notes
+
+DELETE {{hostname}}/deleteNotes HTTP/1.1
+Accept: */*
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "ids": ["b8dcff66-4936-4609-a2bd-3d849d39ae12"],
+  "userId": "{{userId}}"
+}
+
+######### update notes
+
+PUT {{hostname}}/updateNotes HTTP/1.1
+Accept: */*
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+    "userId": "{{userId}}",
+    "notesData": [
+      {
+        "id": "4dbfc366-9372-495d-a4c1-c5d6669cedda",
+        "text": "Texto atualizado da nota 1"
+      },
+      {
+        "id": "bb9a333c-0b7f-4b1f-91fa-a793363458fd",
+        "text": "Texto atualizado da nota 2"
+      }
+    ]
+}

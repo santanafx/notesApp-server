@@ -21,11 +21,6 @@ router.delete(
   handleInputsErrors,
   noteController.deleteNotes
 );
-router.put(
-  "/updateNotes",
-  body("userId").isString(),
-  handleInputsErrors,
-  noteController.updateNotes
-);
+router.put("/updateNotes", handleInputsErrors, noteController.updateNotes);
 
 export default router;
